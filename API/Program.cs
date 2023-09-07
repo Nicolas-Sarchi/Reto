@@ -1,3 +1,4 @@
+using APIIncidencias.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Persistencia.Data;
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddJWT(builder.Configuration);
 
 builder.Services.AddDbContext<RetoContext>(options =>
 {
@@ -28,5 +31,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseAuthentication(); //AUTENTICACION PRIMERO 
+app.UseAuthorization();
 
 app.Run();
