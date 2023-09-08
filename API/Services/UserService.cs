@@ -106,7 +106,7 @@ public class UserService : IUserService
             return datosUsuarioDto;
         }
 
-        var result = _passwordHasher.VerifyHashedPassword(usuario, usuario.UserPassword, model.Password);
+        var result = _passwordHasher.VerifyHashedPassword(usuario, usuario.UserPassword, model.UserPassword);
         if (result == PasswordVerificationResult.Success)
         {
             datosUsuarioDto.Mensaje = "OK";
@@ -181,9 +181,17 @@ public class UserService : IUserService
         return JwtSecurityToken;
     }
 
+    private RefreshToken GenerarRefreshToken (string ipAdress){
+        return new RefreshToken
+        {
+            Token = RandomTokenString(),
+            Expires = Da
+        }
+    }
 
+    private string RandomTokenString()
+    {
+        throw new NotImplementedException();
+    }
 }
 
-internal class Usuario
-{
-}
