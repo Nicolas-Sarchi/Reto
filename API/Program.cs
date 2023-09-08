@@ -9,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddJWT(builder.Configuration);
+builder.Services.AddAppServices();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<RetoContext>(options =>
 {
@@ -18,7 +19,6 @@ builder.Services.AddDbContext<RetoContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
