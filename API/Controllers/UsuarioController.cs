@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using API.Dtos;
 using API.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -32,6 +33,14 @@ public class UsuarioController : BaseApiController
     public async Task<ActionResult> AddRoleAsync(AddRoleDto model)
     {
         var result = await _userService.AddRoleAsync(model);
+        return Ok(result);
+    }
+
+    [HttpPost("refreshToken")]
+
+    public async Task<ActionResult> GetRefreshToken (DatosUsuarioDto model)
+    {
+        var result = await _userService.RefreshTokenAsync(model.RefreshToken);
         return Ok(result);
     }
 }

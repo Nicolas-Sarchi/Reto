@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistencia.Data;
 
@@ -10,9 +11,11 @@ using Persistencia.Data;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(RetoContext))]
-    partial class RetoContextModelSnapshot : ModelSnapshot
+    [Migration("20230912191528_5tamig")]
+    partial class _5tamig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,13 +28,7 @@ namespace Persistencia.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Expires")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("Revoked")
+                    b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Token")
@@ -42,9 +39,10 @@ namespace Persistencia.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.ToTable("refresh_token", (string)null);
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Dominio.Entities.Rol", b =>
@@ -106,13 +104,11 @@ namespace Persistencia.Data.Migrations
 
             modelBuilder.Entity("Dominio.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("Dominio.Entities.User", "User")
-                        .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Dominio.Entities.User", null)
+                        .WithOne("RefreshToken")
+                        .HasForeignKey("Dominio.Entities.RefreshToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Dominio.Entities.UserRol", b =>
@@ -141,7 +137,7 @@ namespace Persistencia.Data.Migrations
 
             modelBuilder.Entity("Dominio.Entities.User", b =>
                 {
-                    b.Navigation("RefreshTokens");
+                    b.Navigation("RefreshToken");
 
                     b.Navigation("UserRols");
                 });

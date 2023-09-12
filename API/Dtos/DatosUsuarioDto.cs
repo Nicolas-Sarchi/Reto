@@ -8,4 +8,7 @@ public class DatosUsuarioDto
     public string UserEmail { get; set;}
     public List<string> Roles { get; set;}
     public string Token { get; set;}
+    public string RefreshToken { get; set;}
+    public DateTime RefreshTokenExpiration { get; set; }
+
 }
