@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.util.zlib;
+using System.Security.Cryptography;
 using API.Dtos;
 using API.Helpers;
 using Dominio.Entities;
@@ -175,23 +175,12 @@ public class UserService : IUserService
             issuer: _jwt.Issuer,
             audience: _jwt.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
+            expires: DateTime.UtcNow.AddSeconds(_jwt.DurationInMinutes),
             signingCredentials: signingCredentials);
 
         return JwtSecurityToken;
     }
 
-    private RefreshToken GenerarRefreshToken (string ipAdress){
-        return new RefreshToken
-        {
-            Token = RandomTokenString(),
-            Expires = Da
-        }
-    }
-
-    private string RandomTokenString()
-    {
-        throw new NotImplementedException();
-    }
+    
 }
 

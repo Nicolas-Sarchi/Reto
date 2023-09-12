@@ -14,6 +14,11 @@ namespace Persistencia.Data
         public DbSet<UserRol> UserRols { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.RefreshToken)
+                .WithOne()
+                .HasForeignKey<RefreshToken>(rt => rt.UserId);
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
