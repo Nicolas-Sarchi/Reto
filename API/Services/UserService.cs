@@ -166,7 +166,7 @@ public class UserService : IUserService
             return DatosUsuarioDto;
         }
         //Revoque the current refresh token and
-        refreshTokenBd.Revoked = DateTime.UtcNow;
+        refreshTokenBd.Revoked = DateTime.UtcNow.AddSeconds(30);
         //generate a new refresh token and save it in the database
         var newRefreshToken = CreateRefreshToken();
         usuario.RefreshTokens.Add(newRefreshToken);
@@ -235,7 +235,7 @@ public class UserService : IUserService
             issuer: _jwt.Issuer,
             audience: _jwt.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddSeconds(_jwt.DurationInMinutes),
+            expires: DateTime.UtcNow.AddSeconds(_jwt.AccessTokenDurationInMinutes),
             signingCredentials: signingCredentials);
 
         return JwtSecurityToken;
@@ -243,4 +243,3 @@ public class UserService : IUserService
 
     
 }
-
