@@ -38,9 +38,9 @@ public class UsuarioController : BaseApiController
 
     [HttpPost("refreshToken")]
 
-    public async Task<ActionResult> GetRefreshToken (DatosUsuarioDto model)
+    public async Task<ActionResult> GetRefreshToken (AuthenticationTokenResultDto model)
     {
-        var result = await _userService.RefreshTokenAsync(model.RefreshToken);
+        var result = await _userService.GetTokenAsync(model);
         return Ok(result);
     }
 }
